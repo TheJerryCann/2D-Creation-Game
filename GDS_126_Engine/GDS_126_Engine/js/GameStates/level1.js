@@ -18,7 +18,8 @@ ground.img.src=`images/ground.png`
 
 //A platform
 var plat = new GameObject({width:256, height:64,y:canvas.height-200, color:"green", world:level})
-
+plat.img.src=`images/plat.png`
+plat.drawStaticImage([200,200,256,64])
 
 
 var leftBorder = new GameObject({width:50, height:canvas.height, world:level, x:0})
@@ -26,7 +27,7 @@ var leftBorder = new GameObject({width:50, height:canvas.height, world:level, x:
 
 //Cave foreground Tile Grid
 var cave = new Grid(caveData, {world:level, x:1024, tileHeight:64, tileWidth:64});
-//Cave background Tile Grid
+//Cave background Tile Grid-*
 var caveBack = new Grid(caveBackData, {world:level, x:1024, tileHeight:64, tileWidth:64});
 //cave hitbox grid
 var caveHit = new Grid(caveHitData, {world:level, x:1024, tileHeight:64, tileWidth:64});
@@ -70,7 +71,7 @@ sky.img.src = `images/sky.png`
 
 //repeating background
 var rbg = new GameObject({x:level.x, y:level.y, width:1024, height:512})
-rbg.img.src=`images/hills.png`
+rbg.img.src=`images/Buildings.png`
 
 //middleground
 var bg = new GameObject({x:level.x,y:level.y, width:canvas.width*4, height:canvas.height})
@@ -97,8 +98,11 @@ for(let i=0; i<100; i++)
 
 /*------------------^^BULLET STUFF^^----------------------*/
 
+sounds.play(`bg`, 0, true);
+
 gameStates[`level1`] = function()
 {
+
 	if(!keys[`W`] && !keys[`S`] && !keys[`D`] && !keys[`A`] && !keys[` `] && canShoot && wiz.canJump)
 	{
 		wiz.changeState(`idle`)
@@ -141,6 +145,7 @@ gameStates[`level1`] = function()
 		wiz.canJump = false;
 		wiz.vy = wiz.jumpHeight;
 		wiz.changeState(`jump`)
+		sounds.play(`jump`, 0);
 		//sounds.play(`splode`,1)
 	}
 	shotTimer--;
@@ -166,7 +171,7 @@ gameStates[`level1`] = function()
 			bullets[currentBullet].x = wiz.x-level.x + (wiz.dir * 96) ;
 			bullets[currentBullet].y = wiz.y + 20;
 			bullets[currentBullet].dir = wiz.dir;
-			
+			sounds.play(`shoot`, 0);
 			//sounds.play(`splode`,1)
 
 			currentBullet++;
